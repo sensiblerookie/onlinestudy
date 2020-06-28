@@ -419,7 +419,7 @@ ss = "你是想红寺湖但行好事时尚先生"
 print(jieba.lcut(ss))
 print(jieba.lcut_for_search(ss))
 
-s = '你'
+s = '你好呀！'
 
 if s in jieba.lcut_for_search(ss):
     print('True')
