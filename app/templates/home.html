@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <title>在线练习</title>
+    <!--    <style type="text/css">body{text-align:center}</style>-->
+    <style type="text/css">
+        input[type="radio"] {
+            display: none;
+        }
+        input[type="radio"]+span {
+            display: inline-block;
+            width: 90px;
+            height: 30px;
+            font-size: 16px;
+            color: 4547be;
+            line-height:25px;
+            text-align: center;
+        <!--	border: 1px solid #999;-->
+        <!--	border-radius:5px 0;-->
+        <!--	background-color: #fff;-->
+        }
+        input[type="radio"]:checked+span {
+            border: 1px solid #00f;
+            border-radius:0 12px;
+            background-color: #fff;
+        }</style>
+
+</head>
+{% include 'base.html' %}
+<body>
+<form method="post" action="/home/">
+    {% csrf_token %}
+    <div class="container" style="padding-bottom:120px">
+        <div class="card">
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">学生首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu1">课外扩展</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu2">名师辅导</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu3">讨论区</a>
+                    </li>
+                    {% if persona == 0%}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu4">添加题库</a>
+                    </li>
+                    {% else %}
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu5">管理员</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="home" class="container tab-pane active"><br>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>{{user_class}} • 综合练习</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <p class="font-weight-bold" style="text-align:left;">年级：</p>
+                                        <div class="card">
+                                            <div class="card-body" style="text-align:left;">
+                                                {% if userClass == 0 %}
+                                                <p style="margin:0">
+                                                    <label><input type="radio" name="selectClass" value="0"
+                                                                  checked="checked"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p>
+                                                {% elif userClass == 1 %}
+                                                <p style="margin:0">
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass" value="1"
+                                                                  checked="checked"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p>
+                                                {% elif userClass == 2 %}
+                                                <p style="margin:0">
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass" value="2"
+                                                                  checked="checked"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p>
+                                                {% elif userClass == 3 %}
+                                                <p style="margin:0">
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass" value="3"
+                                                                  checked="checked"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p style="margin:0">
+                                                {% elif userClass == 4 %}
+                                                <p>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass" value="4"
+                                                                  checked="checked"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p style="margin:0">
+                                                {% elif userClass == 5 %}
+                                                <p>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass" value="5"
+                                                                  checked="checked"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="6"/><span>六年级</span></label>
+                                                </p>{% else %}
+                                                <p style="margin:0">
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="0"/><span>幼儿园</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="1"/><span>一年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="2"/><span>二年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="3"/><span>三年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="4"/><span>四年级</span></label>
+                                                    <label><input type="radio" name="selectClass"
+                                                                  value="5"/><span>五年级</span></label>
+                                                    <label><input type="radio" name="selectClass" value="6"
+                                                                  checked="checked"/><span>六年级</span></label>
+                                                </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <p class="font-weight-bold" style="text-align:left;">计算题：</p>
+                                        <div class="card">
+                                            <div class="card-body" style="text-align:left;">
+                                                <p class="font-weight-bold" style="text-align:left;">题数：</p>
+                                                <p>
+                                                    <label><input type="radio" name="mathCount"
+                                                                  value="10"/><span>10</span></label>
+                                                    <label><input type="radio" name="mathCount"
+                                                                  value="20"/><span>20</span></label>
+                                                    <label><input type="radio" name="mathCount" value="30"
+                                                                  checked="checked"/><span>30</span></label>
+                                                    <label><input type="radio" name="mathCount"
+                                                                  value="40"/><span>40</span></label>
+                                                    <label><input type="radio" name="mathCount"
+                                                                  value="50"/><span>50</span></label>
+                                                </p>
+                                                <p class="font-weight-bold" style="text-align:left;">题型：</p>
+                                                <p>
+                                                    <label><input name="mathType" type="radio" value="1"
+                                                                  checked="checked"><span>加减法</span></label>
+                                                    <label><input name="mathType" type="radio"
+                                                                  value="2"><span>乘除法</span></label>
+                                                    <label><input name="mathType" type="radio"
+                                                                  value="3"><span>加减乘除法</span></label>
+                                                </p>
+                                                <p class="font-weight-bold" style="text-align:left;">计算范围：</p>
+                                                <p>
+                                                    <label><input name="numberRange" type="radio"
+                                                                  value="10"><span>10以内</span></label>
+                                                    <label><input name="numberRange" type="radio"
+                                                                  value="20"><span>20以内</span></label>
+                                                    <label><input name="numberRange" type="radio" value="30"
+                                                                  checked="checked"><span>30以内</span></label>
+                                                    <label><input name="numberRange" type="radio"
+                                                                  value="50"><span>50以内</span></label>
+                                                    <label><input name="numberRange" type="radio"
+                                                                  value="100"><span>100以内</span></label>
+                                                    <!--                    <input name="numberRange" type="number" class="form-control" placeholder="自定义运算范围">-->
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <p class="font-weight-bold" style="text-align:left;">难易程度：</p>
+                                        <div class="card">
+                                            <div class="card-body" style="text-align:left;">
+                                                <p style="margin:0">
+                                                    <label><input name="mathGrade" type="radio"
+                                                                  value="1"><span>简单</span></label>
+                                                    <label><input name="mathGrade" type="radio"
+                                                                  value="2" checked="checked"><span>适中</span></label>
+                                                    <label><input name="mathGrade" type="radio"
+                                                                  value="3"><span>困难</span></label>
+                                                    <label><input name="mathGrade" type="radio"
+                                                                  value="4"><span>特难</span></label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div>
+                                    <!-- 按钮：用于打开模态框，若数据库为空，直接进入答题页 -->
+                                    {% if userId == None %}
+                                    <div class="nav justify-content-center">
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">开始新答题</button>
+                                        </div>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <div>
+                                            {% if userClass == 0 %}
+                                            <a role="button" class="btn btn-outline-primary disabled" href="#">自定义练习</a>
+                                            {% else %}
+                                            <a role="button" class="btn btn-outline-primary"
+                                               href="/custom_home/">自定义练习</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="nav justify-content-center">
+                                        <div>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal">开始新答题
+                                            </button>
+                                        </div>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <div>
+                                            {% if userClass == 0 %}
+                                            <a role="button" class="btn btn-outline-primary disabled" href="#">自定义练习</a>
+                                            {% else %}
+                                            <a role="button" class="btn btn-outline-primary"
+                                               href="/custom_home/">自定义练习</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    <!-- 开始答题的模态框，提示用户开始新的答题，将删除之前的答题内容 -->
+                                    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- 模态框头部 -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">温馨提示</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                </div>
+                                                <!-- 模态框主体 -->
+                                                <div class="modal-body">
+                                                    确定开始新的答题，原来的答题结果将被删除！
+                                                </div>
+                                                <!-- 模态框底部 -->
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">确定</button>
+                                                    <button type="button" class="btn btn-light" data-dismiss="modal">
+                                                        取消
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- 继续答题和查看结果链接 -->
+                                    <div class="nav justify-content-center">
+                                        <div>
+
+                                            {% if userId == None %}
+                                            <a class="nav-link" href="#" data-toggle="popover" data-placement="top"
+                                               data-trigger="focus"
+                                               data-content="您还未答过题，请开始新答题">继续答题</a>
+                                            {% else %}
+                                            <a class="nav-link" href="/index/">继续答题</a>
+                                            {% endif %}
+                                        </div>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <div>
+                                            {% if result == None %}
+                                            <a class="nav-link" href="#" data-toggle="popover" data-placement="top"
+                                               data-trigger="focus"
+                                               data-content="请答完题后再查看结果">查看结果</a>
+                                            {% else %}
+                                            {% if user_select_class == 0 %}
+                                            <a class="nav-link" href="/result/">查看结果</a>
+                                            {% else %}
+                                            <a class="nav-link" href="/result_class/">查看结果</a>
+                                            {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <script>$(document).ready(function(){$('[data-toggle="popover"]').popover();});</script>
+                                    </div>
+                                    <br>
+                                    <!-- 说明页 -->
+                                    <div class="alert alert-info" style="text-align:left;">
+                                        <strong>说明：</strong>
+                                        <br><span>1、本练习旨在提升学生数学综合水平，属课外练习；</span>
+                                        <br><span>2、年级根据注册（或修改）时所选择的年级，默认选中对应的年级；</span>
+                                        <br><span>3、1-6年级默认增加【填空题】、【选择题】和【判断题】各10道，以及5道【应用题】和2道【奥数题】；</span>
+                                        <br><span>4、【自定义练习】对1-6年级开放，自定义练习可自行设置每种题型的题数。</span>
+                                        <br><span>5、在【个人信息】页可更改自己的年级等相关信息，更改后展示更改后的信息；</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="menu1" class="container tab-pane fade"><br>
+                        <h3>Menu 1</h3>
+                    </div>
+                    <div id="menu2" class="container tab-pane fade"><br>
+                        <h3>Menu 2</h3>
+                    </div>
+                    <div id="menu3" class="container tab-pane fade"><br>
+                        <iframe frameborder="0" width='400' height='360'
+                                src="https://www.17sucai.com/preview/1428172/2020-05-30/6-%E5%9F%BA%E4%BA%8ESVG%E7%9A%84HTML5%E5%9C%86%E7%9B%98%E6%97%B6%E9%92%9F%E5%8A%A8%E7%94%BB/index.html"></iframe>
+                    </div>
+                    <div id="menu4" class="container tab-pane fade"><br>
+                        <!--                        <a href="/title_add/">添加题库</a>-->
+                        <iframe id="myiframe" sandbox="allow-forms allow-same-origin allow-scripts" frameborder="0"
+                                width='100%' src="../title_add"></iframe>
+                    </div>
+                    <div id="menu5" class="container tab-pane fade"><br>
+                        <!--                        超级管理员-->
+                        <iframe id="myiframe1" width="100%" frameborder="0" src="https://www.baidu.com"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+    function changeFrameHeight(){
+        var ifm= document.getElementById("myiframe");
+        var ifm1= document.getElementById("myiframe1");
+        ifm.height=document.documentElement.clientHeight-200;
+        ifm1.height=document.documentElement.clientHeight-200;
+    }
+    window.onresize=function(){ changeFrameHeight();}
+    $(function(){changeFrameHeight();});</script>

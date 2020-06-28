@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <title>在线练习*注册</title>
+    <style>body{text-align:center}</style>
+</head>
+
+<body style="background-image: url({% static '../static/image/user/login.jpg'%});background-repeat: no-repeat;background-position:bottom;background-size: 100%;">
+{% include 'base.html' %}
+<form method="post" action="/register/">
+    <div class="nav justify-content-center">
+        <div class="col-xs-md-sm-12" style="padding-top:5%;padding-bottom:10%;">
+            <div class="container">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body">
+                        <h4>学习，为了更好的生活</h4>
+                    </div>
+                    <div class="card-body" style="text-align:left;">
+                        <div class="card bg-light text-dark">
+                            <div class="card-body">
+                                <p>昵称(必填)：{{form.username}}</p><a style="color:red">{{ error.username }}</a>
+                                <p>密码(必填)：{{form.password1}}</p><a style="color:red">{{ error.password1 }}</a>
+                                <p>密码(必填)：{{form.password2}}</p><a style="color:red">{{ error.password2 }}</a>
+                                <p>姓名(必填)：{{form.fullname}}</p><a style="color:red">{{ error.fullname }}</a>
+                                <p>性别(必填)：{{form.sex}}</p><a style="color:red">{{ error.sex }}</a>
+                                <p>角色(必填)：{{form.userPersona}}</p><a style="color:red">{{ error.userPersona }}</a>
+                                <p>年级(必填)：{{form.userClass}}</p><a style="color:red">{{ error.userClass }}</a>
+                                <p>手机(选填)：{{form.mobile}}</p><a style="color:red">{{ error.mobile }}</a>
+                                <p>邮箱(选填)：{{form.email}}</p><a style="color:red">{{ error.email }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+<!--                        <a style="color:red">{{error}}</a>-->
+                        <p>
+                            <button type="submit" style="width:70%" class="btn btn-primary">注册</button>
+                        </p>
+                        <p><a href="/login/">已有账号！立即登录</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        <table class="nav justify-content-center"-->
+        <!--               style="padding:20px;border: #2aabd2 1px solid ;border-radius: 6px;height: 100%;width: 90%;margin: 0 auto;background-color: rgba(255,255,255,0.6)">-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><h3>学习，为了更好的生活</h3></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3">&nbsp;</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>昵&nbsp;&nbsp;&nbsp;&nbsp;称：</td>-->
+        <!--                <td>{{form.username}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.username.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>-->
+        <!--                <td>{{form.password1}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.password1.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>确认密码：</td>-->
+        <!--                <td>{{form.password2}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.password2.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>-->
+        <!--                <td>{{form.fullname}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.fullname.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>性&nbsp;&nbsp;&nbsp;&nbsp;别：</td>-->
+        <!--                <td> {{form.sex}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>角&nbsp;&nbsp;&nbsp;&nbsp;色：</td>-->
+        <!--                <td> {{form.userPersona}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>班&nbsp;&nbsp;&nbsp;&nbsp;级：</td>-->
+        <!--                <td> {{form.userClass}}</td>-->
+        <!--                <td>*</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>手&nbsp;&nbsp;&nbsp;&nbsp;机：</td>-->
+        <!--                <td>{{form.mobile}}</td>-->
+        <!--                <td></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.mobile.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>-->
+        <!--                <td>{{form.email}}</td>-->
+        <!--                <td></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a style="color:red">{{form.email.errors}}</a></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                &lt;!&ndash;                <td colspan="2"><a style="color:red">{{ error }}</a></td>&ndash;&gt;-->
+        <!--                &lt;!&ndash;                <td colspan="2"><a style="color:green">{{ success }}</a></td>&ndash;&gt;-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3">&nbsp;</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3">-->
+        <!--                    <button type="submit" style="width:100%" class="btn btn-primary">注册</button>-->
+        <!--                </td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3">&nbsp;</td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <td colspan="3"><a href="/login/">已有账号，立即登录</a></td>-->
+        <!--            </tr>-->
+        <!--        </table>-->
+    </div>
+</form>
+</body>
+</html>

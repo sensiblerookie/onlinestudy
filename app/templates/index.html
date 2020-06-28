@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>习题页</title>
+    <style type="text/css">
+        input[type="radio"] {
+            display: none;
+        }
+        input[type="radio"]+span {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+            color: #000;
+            line-height:25px;
+            text-align: center;
+        	border: 1px solid #999;
+        	border-radius:50% 50%;
+        	background-color: #fff;
+        }
+        input[type="radio"]:checked+span {
+            border: 1px solid #45b97c;
+            border-radius:50% 50%;
+            color: #fff;
+            background-color: #45b97c;
+        }</style>
+</head>
+
+<body role="document">
+{% include 'base.html' %}
+<form method="post" action="/index/">
+    {% csrf_token %}
+    <div class="container" style="padding-bottom:100px;">
+        <div id="accordion" style="text-align:left;">
+            {% if fill == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">填空题<span style="font-size:18px;">(将正确答案填在横线上)</span></p>
+                </div>
+                <div class="card-body">
+                    <script type="text/javascript">
+                            var List = {{ f_fill|safe }};
+                            for (i in List){
+                                console.log(List[i]['titleName']);
+                                console.log(List[i].id);
+                                console.log(List[i].inputAnswer);
+                                console.log(List[i].answerComparison);
+
+                                if (List[i].answerComparison == null ){str ='<p>' + List[i]['titleName'] + '</p>'}
+                                else if (List[i].answerComparison == true ){str ='<p>' + List[i]['titleName'] + '<a style="color:green">' + '✓' + '</a>' + '</p>'}
+                                else{str ='<p>' + List[i]['titleName'] + '<a style="color:red">' + '✗' + '</a>' + '</p>'}
+
+                                cars = List[i].inputAnswer.split(',')
+                                for (var j=0;j<cars.length;j++){
+                                    if (cars == ''){
+                                        str = str.replace(/\(\)/g, '<input name='+ List[i].id + ' style="padding-left:10px;width:65px;outline:none;border:none;border-bottom: 1px solid #000" value=' + cars[j] + '> ');
+                                    }
+                                    else {
+                                        str = str.replace(/\(\)/, '<input name=' + List[i].id + ' style="padding-left:10px;width:65px;outline:none;border:none;border-bottom: 1px solid #000" value=' + cars[j] + '> ');
+                                    }
+                                }
+                                document.write(str)
+                            };
+                    </script>
+                </div>
+            </div>
+            {% endif %}
+            {% if count == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">计算题<span style="font-size:18px;">(将正确答案填在方框内)</span></p>
+                </div>
+                <div class="card-body">
+                    {% for c in count %}
+                    <div class="row card-body" style="text-align: left;float:left;width:368px">
+                        <div style="padding-left:20px">
+                            <h4>{{c.titleName}}</h4>
+                        </div>
+                        <div style="padding-left:10px;">
+                            {% if c.inputAnswer == None %}
+                            <input maxlength="32" style="width:60px;" class="form-control" type="number"
+                                   name="{{c.id}}">
+                            {% else %}
+                            <input maxlength="32" style="width:60px;" class="form-control" type="number"
+                                   name="{{c.id}}" value="{{c.inputAnswer}}">
+                            {% endif %}
+                        </div>
+                        <div style="padding-left:12px">
+                            {% if c.answerComparison == None %}
+                            {% elif c.answerComparison == True %}
+                            <a style="color:green">✓</a>
+                            {% else %}
+                            <a style="color:red">✗</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if select == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">选择题<span style="font-size:18px;">(将正确答案填在方框内)</span></p>
+                </div>
+                <div class="card-body">
+                        <script type="text/javascript">
+                            var List = {{ s_select|safe }};
+                            for (i in List){
+                                console.log(List[i]['titleName']);
+                                console.log(List[i].id);
+                                console.log(List[i].inputAnswer);
+                                console.log(List[i].answerComparison);
+                                console.log(List[i].subjoinTitle);
+
+                                if (List[i].answerComparison == null ){str ='<p>' + List[i]['titleName'] + '</p>' + '<p style="word-spacing:30px;">' + List[i].subjoinTitle + '</p>'}
+                                else if (List[i].answerComparison == true ){str ='<p>' + List[i]['titleName'] + '<a style="color:green">' + '✓' + '</a>' + '</p>' + '<p style="word-spacing:30px;">' + List[i].subjoinTitle + '</p>'}
+                                else{str ='<p>' + List[i]['titleName'] + '<a style="color:red">' + '✗' + '</a>' + '</p>' + '<p style="word-spacing:30px;">' + List[i].subjoinTitle + '</p>'}
+
+                                document.write(str.replace(/\(\)/g, ' <input name='+ List[i].id + ' style="width:35px;" maxlength="1" oninput="value=value.replace(/[^A-Z]/g,\'\');" value=' + List[i].inputAnswer + '> '))
+                            };</script>
+                    </div>
+            </div>
+            {% endif %}
+            {% if verdict == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">判断题<span style="font-size:18px;">(判断对与错，并选中对应的按钮)</span></p>
+                </div>
+                <div class="card-body">
+                        {% for v in verdict %}
+                        <p>
+                            {{v.titleName}}
+                            {% if v.inputAnswer == None %}
+                            <label><input type="radio" name="{{v.id}}" value="0"/><span>✓</span></label>
+                            <label><input type="radio" name="{{v.id}}" value="1"/><span>✗</span></label>
+                            {% else %}
+                            {% if v.answerComparison == True %}
+                            <label><input type="radio" name="{{v.id}}" value="0"
+                                          checked="checked"/><span>✓</span></label>
+                            <label><input type="radio" name="{{v.id}}" value="1"/><span>✗</span></label>
+                            {% else %}
+                            <label><input type="radio" name="{{v.id}}" value="0"/><span>✓</span></label>
+                            <label><input type="radio" name="{{v.id}}" value="1"
+                                          checked="checked"/><span>✗</span></label>
+                            {% endif %}
+                            {% endif %}
+
+                            {% if v.answerComparison == None %}
+                            {% elif v.answerComparison == True %}
+                            <a style="color:green">✓</a>
+                            {% else %}
+                            <a style="color:red">✗</a>
+                            {% endif %}
+                        </p>
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+            {% if use == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">应用题<span style="font-size:18px;">(只写算式和结果即可)</span></p>
+                </div>
+                <div class="card-body">
+                        {%for u in use%}
+                        <p>
+                            {{u.titleName}}
+                            {% if u.answerComparison == None %}
+                            {% elif u.answerComparison == True %}
+                            <a style="color:green">✓</a>
+                            {% else %}
+                            <a style="color:red">✗</a>
+                            {% endif %}
+                        </p>
+                        {% if u.inputAnswer == None %}
+                        <textarea maxlength="100" name="{{u.id}}" style="width:100%;" rows="3"
+                                  placeholder="请输入算式和算式结果"
+                                  oninput="value=value.replace(/[\u4E00-\u9FA5]|[A-Za-z]/g,'');"></textarea>
+                        {% else %}
+                        <textarea maxlength="100" name="{{u.id}}" style="width:100%;" rows="3"
+                                  placeholder="请输入算式和算式结果"
+                                  oninput="value=value.replace(/[\u4E00-\u9FA5]|[A-Za-z]/g,'');">{{u.inputAnswer}}</textarea>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+            {% if number == None %}
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <p style="font-size:24px;margin:0;">奥数题<span style="font-size:18px;">(只写算式和结果即可)</span></p>
+                </div>
+                <div class="card-body">
+                        {% for n in number %}
+                        <p>
+                            {{n.titleName}}
+                            {% if n.answerComparison == None %}
+                            {% elif n.answerComparison == True %}
+                            <a style="color:green">✓</a>
+                            {% else %}
+                            <a style="color:red">✗</a>
+                            {% endif %}
+                        </p>
+                        {% if n.inputAnswer == None %}
+                        <textarea maxlength="100" name="{{n.id}}" style="width:100%;" rows="3"
+                                  placeholder="请输入算式和算式结果"
+                                  oninput="value=value.replace(/[\u4E00-\u9FA5]|[A-Za-z]/g,'');"></textarea>
+                        {% else %}
+                        <textarea maxlength="100" name="{{n.id}}" style="width:100%;" rows="3"
+                                  placeholder="请输入算式和算式结果"
+                                  oninput="value=value.replace(/[\u4E00-\u9FA5]|[A-Za-z]/g,'');">{{n.inputAnswer}}</textarea>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+        </div>
+        <div style="padding-top:20px">
+            <button style="width:100px" class="btn btn-primary" type="reset">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button style="width:100px" class="btn btn-primary" type="submit">提交</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+
+<!--<script type="text/javascript">-->
+<!--	let data = [{'id': '5', 'name': '100里面有()个一，()个十。'}, {'id': '18', 'name': '最大面值的人民币是()。最小面值的人民币是()。'}, {'id': '32', 'name': '19前面的一个数是()；19后面的一个数是()。'}, {'id': '35', 'name': '比60大，比80小，个位上是5的数有()、()。'}, {'id': '14', 'name': '80前面一个数是()，后面一个数是()。'}, {'id': '32', 'name': '90比()少1，比()大1。'}, {'id': '24', 'name': '长方体有()个面，对面()。正方体有()个面，每个面都是()。'}, {'id': '23', 'name': '50比80少()；70比40多()；()比15多20。'}, {'id': '38', 'name': '最大的两位数是()，最大的一位数是()，他们相差()。'}, {'id': '13', 'name': '20、()、()、()、16、15'}]-->
+<!--	let fragment = document.createDocumentFragment();-->
+<!--	let container = document.querySelector('.test')-->
+
+<!--	data.forEach(v => {-->
+<!--		// v.name = v.name.replace(/\(\)/, '<input />')-->
+<!--		let _div = document.createElement('div')-->
+<!--		_div.innerHTML = v.id+'、'+ v.name.replace(/\(\)/g, '<input name="1" style="width:50px;"/>')-->
+<!--		fragment.appendChild(_div)-->
+<!--	})-->
+<!--	container.appendChild(fragment)-->
+
+<!--</script>-->

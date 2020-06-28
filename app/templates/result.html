@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static%}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <title>在线练习</title>
+    <style>body{text-align:center;}</style>
+</head>
+
+<body role="document">
+{% include 'base.html' %}
+<div class="container" style="padding-bottom:100px">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">>>>结果页<<<</h4>
+        </div>
+        <div class="card-body">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" style="text-align:left;">
+                        {% if no == 0 and submitNum == 1 %}
+                        <h5>答题结果：小朋友真棒！</h5>
+                        {% elif no == 0%}
+                        <h5>答题结果：小朋友需要努力哟！</h5>
+                        {% else %}
+                        <h5>答题结果：</h5>
+                        <a>您已提交 {{submitNum}} 次，</a>
+                        <a style="color:green">正确: {{yes}} 个，</a>
+                        <a style="color:red">错误: {{no}} 个。</a>
+                        {% endif %}
+                    </div>
+                    <div id="collapseOne" class="collapse show" data-parent="#">
+                        <div class="card-body">
+                            <img src="../static/image/app/text_{{user_id}}.png" class="img-fluid"
+                                 style="border-radius:10px">
+                        </div>
+                        <p style="color:#DCB5FF">>>>长按图片可保存至本地<<<</p>
+                    </div>
+                </div>
+                {% if FalseNum == 0 %}
+                {% else %}
+                <div class="card">
+                    <div class="card-header" style="text-align:left;">
+                        <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                            错题解析
+                        </a>
+
+                    </div>
+                    <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                        <div class="card-body" style="text-align:left;padding-left:30px;">
+                            {% for result in result_true%}
+                            <p>{{result.num}}. 正确答案：<a style="color:green">{{result.result}}</a></p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div style="padding-top:30px">
+                <a href="/home/"><input type="button" class="btn btn-outline-primary" value="重新练习"></a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="/index/"><input type="button" class="btn btn-outline-primary" value="返回重做"></a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <img style="width:180px;height:180px;border-radius:6px" src="../static/image/app/SupportCode.png" class="img-fluid">
+        </div>
+    </div>
+</div>
+</body>
+</html>

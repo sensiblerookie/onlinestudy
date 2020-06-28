@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+
+<body style="background-image: url({% static '../static/image/user/login.jpg'%});background-size: 100%;">
+{% include 'base.html' %}
+<form method="post" action="/login/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="nav justify-content-center">
+        <div class="col-xs-md-sm-12" style="padding-top:5%;padding-bottom:10%;">
+            <div class="container">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body">
+                        <h4>数学，无穷的科学</h4>
+                    </div>
+                    <div class="card-body" style="text-align:left;">
+                        <div class="card bg-light text-dark">
+                            <div class="card-body">
+                                <p>昵称(必填)：{{form.username}}<a style="color:red">{{error.username}}</a></p>
+                                <p>密码(必填)：{{form.password}}<a style="color:red">{{error.password}}</a></p>
+
+                                {% for field in form %}
+                                <a style="color:red">{{field.errors}}</a>
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <p>
+                            <button type="submit" style="width:70%" class="btn btn-primary">登录</button>
+                        </p>
+                        <p><a href="/register/">没有账号？立即注册</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    <div style="padding-top:12%">-->
+    <!--        <table class="nav justify-content-center"-->
+    <!--               style="padding:20px;border: #2AABD2 0px solid ;border-radius: 6px;height: 100%;width: 90%;margin: 0 auto;background-color: rgb(255,255,255,0.4)">-->
+    <!--            <tr>-->
+    <!--                <td colspan="2"><h3>数学，无穷的科学</h3></td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td colspan="2">&nbsp;</td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td> 账&nbsp;&nbsp;&nbsp;号：</td>-->
+    <!--                <td>{{ form.username }}</td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td> 密&nbsp;&nbsp;&nbsp;码：</td>-->
+    <!--                <td>{{ form.password }}</td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                {% for field in form %}-->
+    <!--                <td colspan="2"><a style="color:red">{{field.errors}}</a></td>-->
+    <!--                {% endfor %}-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td colspan="2">&nbsp;</td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td colspan="2">-->
+    <!--                    <input type="submit" style="width:260px" class="btn btn-primary" value="登录">-->
+    <!--                </td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td colspan="2">&nbsp;</td>-->
+    <!--            </tr>-->
+    <!--            <tr>-->
+    <!--                <td colspan="2">-->
+    <!--                    &lt;!&ndash;                    <a href="/register/">忘记密码</a>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <a>&nbsp;&nbsp;&nbsp;&nbsp;</a>&ndash;&gt;-->
+    <!--                    <a href="/register/">没有账号,立即注册</a>-->
+    <!--                </td>-->
+    <!--            </tr>-->
+    <!--        </table>-->
+    <!--    </div>-->
+</form>
+</body>
+</html>

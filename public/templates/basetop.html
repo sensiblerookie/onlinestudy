@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <title>网页顶部</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--顶部导航-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container">
+        <div class="justify-content-start">
+            <!-- Brand/logo -->
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="navbar-brand" href="#">
+                        <img src="https://static.runoob.com/images/mix/bird.jpg" alt="logo" style="width:40px;">
+                    </a>
+                </li>
+                <li><a href="/home/">在线练习</a></li>
+            </ul>
+        </div>
+
+        <!-- Links -->
+        <ul class="nav navbar-nav justify-content-end">
+            <li class="nav-link"><a style="color:white" href="/login/">登录</a></li>
+            <li class="nav-link"><a style="color:white" href="/register/">注册</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h3>品牌 / Logo</h3>
+    <p>果使用图片，可以使用 .navbar-brand 类来设置图片自适应导航栏。</p>
+</div>
+</body>
+</html>

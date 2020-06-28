@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+</head>
+{% include 'base.html' %}
+<body>
+
+<div class="container">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header">
+                <h3>用户信息</h3>
+            </div>
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-body" style="text-align:left;">
+                        <div class="row">
+                            <div style="padding:20px;text-align:center;">
+                                <img src="{% static '../static/image/public/default_head.jpg'%}" alt="logo"
+                                     style="width:180px;high:180px"
+                                     class="rounded-circle">
+                            </div>
+                            <div style="padding-left:20px">
+                                <p>昵称：<span style="color:#A9A9A9">{{user.username}}</span></p>
+                                <p>角色：<span style="color:#A9A9A9">{{userPersona}}</span></p>
+                                <p>姓名：<span style="color:#A9A9A9">{{user_profile.fullName}}</span></p>
+                                <p>性别：<span style="color:#A9A9A9"> {{sex}}</span></p>
+                                <p>班级：<span style="color:#A9A9A9">{{userClass}}</span></p>
+                                {% if user_profile.mobile is None %}
+                                <p>绑定手机：<span style="color:#A9A9A9">无</span></p>
+                                {% else %}
+                                <p>绑定手机：<span style="color:#A9A9A9">{{mobile}}</span></p>
+                                {% endif %}
+                                {% if email == 0 %}
+                                <p>电子邮箱：<span style="color:#A9A9A9">无</span></p>
+                                {% else %}
+                                <p>电子邮箱：<span style="color:#A9A9A9">{{user.email}}</span></p>
+                                {% endif %}
+                                <p>注册时间：<span style="color:#A9A9A9">{{user.date_joined}}</span></p>
+                                <p>最近登录：<span style="color:#A9A9A9">{{user.last_login}}</span></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <div style="text-align:right;">
+                    <a href="/home/" class="btn btn-outline-primary">编辑信息</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8">
+    <title>增加题库</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<!--<form method="post" action="/title_add/">-->
+<!--    {% csrf_token %}-->
+<div class="container" style="padding-top:60px">
+    <!--        <div id="accordion">-->
+    <div class="card" style="text-align:left;">
+        <div class="card-header">
+            <p>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">单条添加
+                </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+                    批量导入
+                </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary disabled">批量添加</button>
+            </p>
+            <!-- 模态框 -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" action="/title_add/" enctype="multipart/form-data">
+                            <!-- 模态框头部 -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">单条编辑</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- 模态框主体 -->
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <p>年级<input type="text" name="upload"></p>
+                                <p>科目<input type="text" name="upload"></p>
+                                <p>题型<input type="text" name="upload"></p>
+                                <p>难易度<input type="text" name="upload"></p>
+                                <p>题目<input type="text" name="upload"></p>
+                                <p>附加题目<input type="text" name="upload"></p>
+                                <p>附加附加图片<input type="text" name="upload"></p>
+                                <p>答案<input type="text" name="upload"></p>
+                                <p>解析<input type="text" name="upload"></p>
+                            </div>
+                            <!-- 模态框底部 -->
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" data-dismiss="modal" value="保存">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- 模态框 -->
+            <div class="modal fade" id="myModal1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" action="/title_add/" enctype="multipart/form-data">
+                            <!-- 模态框头部 -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">批量添加题库</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- 模态框主体 -->
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <input type="file" name="upload">
+                            </div>
+                            <!-- 模态框底部 -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" data-dismiss="modal">确认</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding-left:30px">
+                    <div class="row">
+                        <div><p style="margin:0">科目：</p></div>
+                        <div style="padding:0 20px 20px 0"><input type="text" class="form-control"></div>
+                        <div><p style="margin:0">年级：</p></div>
+                        <div style="padding:0 20px 20px 0"><input type="text" class="form-control"></div>
+                        <div><p style="margin:0">题型：</p></div>
+                        <div style="padding:0 20px 20px 0"><input type="text" class="form-control"></div>
+                    </div>
+                    <div class="row">
+                        <div><p style="margin:0">题目：</p></div>
+                        <div style="padding:0 20px 20px 0;"><input type="text" class="form-control"></div>
+                        <div><input type="submit" class="btn btn-primary" value="查询"></div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card" >
+                <div class="card-body" style="height:300px;text-align:center;line-height:280px;">
+                    无预览结果
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--        </div>-->
+</div>
+<!--</form>-->
+</body>
+</html>
