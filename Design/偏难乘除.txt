@@ -1,0 +1,56 @@
+x\y\z随机生成的数,i是题目数 j
+
+
+mathTitle='( ) × %s × %s = %s' % (y, z, x * y * z),mathResult=x,	yz不能为0，y==0 or z==0
+mathTitle='%s × ( ) × %s = %s' % (x, z, x * y * z),mathResult=y,	xz不能为0，x==0 or z==0
+mathTitle='%s 1× 2%s × ( ) = 0%s' % (x, y, x * y * z),mathResult=z,	xy不能为0，x==0 or y==0
+
+
+mathTitle='%s × %s ÷ ( ) = %s' % (x, y * z, x * y),mathResult=z,	xyz不能为0，x==0 or y==0(z!=0,则输入任意结果)
+mathTitle='%s × ( ) ÷ %s = %s' % (x * z, x, y * z),mathResult=y,	xz不能为0，x!=0 and z==0
+mathTitle='( ) × %s ÷ %s = %s' % (y * z, z, x * y),mathResult=x,	yz不能为0，z!=0 and y==0
+
+
+
+mathTitle='%s ÷ %s × ( ) = %s' % (x * y, y, x * z),mathResult=z,	xy不能为0，y!=0 and x==0
+mathTitle='%s ÷ ( ) × %s = %s' % (x * y, z, x * z)mathResult=y,		xyz不能为0，y!=0 and (x==0 or z==0)(y!=0,则输入任意结果)
+mathTitle='( ) ÷ %s × %s = %s' % (y, z, x * z),mathResult=x * y,	yz不能为0，y!=0 and (x==0 or z==0)
+
+
+
+mathTitle='( ) ÷ %s ÷ %s = %s' % (x, y, z),mathResult=x * y * z,	xy 不能为0
+mathTitle='%s ÷ ( ) ÷ %s = %s' % (x * y * z, x, z),mathResult=y,	xyz 不能为0，y!=0 and x!=0 and z==0(y!=0,则输入任意结果)
+mathTitle='%s ÷ %s ÷ ( ) = %s' % (x * y * z, y, z),mathResult=x,	xyz 不能为0，x!=0 and y!=0 and z==0(x!=0,则输入任意结果)
+
+
+
+if x!==0 and y!=0 and z!=0:
+	12选1
+elif x!=0 and y!=0:
+	3选1
+elif x!=0 and z!=0:
+	2选1
+elif y!=0 and z!=0:
+	3选1
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

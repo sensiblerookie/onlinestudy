@@ -1,0 +1,7 @@
+一、IIS的添加
+二、
+（4）检查依赖库有没有全部安装
+
+　　（安装依赖库的时候，可以先把项目环境的软件包信息和依赖软件导出到文件里<注意切换到项目目录，如runserver方法一致>
+
+　　（命令为：pip freeze > requirements.txt）然后直接在cmd（管理员）里面执行pip install -r requirements.txt）
