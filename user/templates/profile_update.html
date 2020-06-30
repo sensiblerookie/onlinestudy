@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static %}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8">
+    <title>更新个人资料</title>
+</head>
+{% include 'base.html' %}
+<body>
+<form method="post" action="/profile_update/">
+    {% csrf_token %}
+    <div class="container">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header">
+                    <h3>更新个人资料</h3>
+                </div>
+                <div class="card-body">
+                    <div class="card">
+                        <div class="card-body" style="text-align:left;">
+                            <div class="row">
+                                <div style="padding:20px;text-align:center;">
+                                    <div>
+                                        <img src="{% static '../static/image/public/default_head.jpg'%}" alt="logo"
+                                             style="width:180px;high:180px" class="rounded-circle">
+                                    </div>
+                                    <br>
+                                    <div><input type="file" id="myFile" name="filename2"></div>
+                                </div>
+                                <div style="padding-left:20px">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">昵称</span>
+                                        </div>
+                                        <input name="username" class="form-control" value="{{user.username}}">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">角色</span>
+                                        </div>
+                                        <select name="userPersona" class="form-control">
+                                            <option selected>{{userPersona}}</option>
+                                            <option value="0">学生</option>
+                                            <option value="1">教师</option>
+                                        </select>
+<!--                                        <input name="userPersona" class="form-control" value="{{userPersona}}">-->
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">姓名</span>
+                                        </div>
+                                        <input name="fullName" class="form-control" value="{{user_profile.fullName}}">
+                                    </div>
+                                    <!--                                    <p>昵称：<input name="username" class="form-control" value="{{user.username}}"></p>-->
+                                    <!--                                    <p>角色：<input name="userPersona" class="form-control" value="{{userPersona}}"></p>-->
+                                    <!--                                    <p>姓名：<input name="fullName" class="form-control" value="{{user_profile.fullName}}">-->
+                                    <!--                                    </p>-->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">性别</span>
+                                        </div>
+                                        <select name="sex" class="form-control">
+                                            <option selected>{{sex}}</option>
+                                            <option value="0">女</option>
+                                            <option value="1">男</option>
+                                            <option value="2">保密</option>
+                                        </select>
+                                    </div>
+                                    <!--                                    <p>性别：-->
+                                    <!--                                        <select name="sex" class="form-control">-->
+                                    <!--                                            <option selected>{{sex}}</option>-->
+                                    <!--                                            <option value="0">女</option>-->
+                                    <!--                                            <option value="1">男</option>-->
+                                    <!--                                            <option value="2">保密</option>-->
+                                    <!--                                        </select>-->
+                                    <!--                                    </p>-->
+                                    <!--                                    <p>班级：<input name="userClass" class="form-control" value="{{userClass}}"></p>-->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">班级</span>
+                                        </div>
+                                        <select name="userClass" class="form-control">
+                                            <option selected>{{userClass}}</option>
+                                            <option value="0">幼儿园</option>
+                                            <option value="1">一年级</option>
+                                            <option value="2">二年级</option>
+                                            <option value="3">三年级</option>
+                                            <option value="4">四年级</option>
+                                            <option value="5">五年级</option>
+                                            <option value="6">六年级</option>
+                                        </select>
+                                    </div>
+                                    <!--                                    <p>班级-->
+                                    <!--                                        <select name="userClass" class="form-control">-->
+                                    <!--                                            <option selected>{{userClass}}</option>-->
+                                    <!--                                            <option value="0">幼儿园</option>-->
+                                    <!--                                            <option value="1">一年级</option>-->
+                                    <!--                                            <option value="2">二年级</option>-->
+                                    <!--                                            <option value="3">三年级</option>-->
+                                    <!--                                            <option value="4">四年级</option>-->
+                                    <!--                                            <option value="5">五年级</option>-->
+                                    <!--                                            <option value="6">六年级</option>-->
+                                    <!--                                        </select>-->
+                                    <!--                                    </p>-->
+                                    {% if user_profile.mobile is None %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">手机</span>
+                                        </div>
+                                        <input name="mobile" class="form-control" value="---">
+                                    </div>
+                                    <!--                                    <p>绑定手机：<input name="mobile" class="form-control" value="-&#45;&#45;"></p>-->
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">手机</span>
+                                        </div>
+                                        <input name="mobile" class="form-control" value="{{mobile}}">
+                                    </div>
+                                    <!--                                    <p>绑定手机：<input name="mobile" class="form-control" value="{{mobile}}"></p>-->
+                                    {% endif %}
+                                    {% if email == 0 %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">邮箱</span>
+                                        </div>
+                                        <input name="email" class="form-control" value="---">
+                                    </div>
+                                    <!--                                    <p>电子邮箱：<span style="color:#A9A9A9">无</span></p>-->
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">邮箱</span>
+                                        </div>
+                                        <input name="email" class="form-control" value="{{user.email}}">
+                                    </div>
+                                    <!--                                    <p>电子邮箱：<span style="color:#A9A9A9">{{user.email}}</span></p>-->
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div style="text-align:right;">
+                        <button type="submit" class="btn btn-outline-primary">保存并更新</button>
+                        <a href="/profile/" class="btn btn-outline-primary">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

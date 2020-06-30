@@ -24,8 +24,22 @@
                     <div class="card-body" style="text-align:left;">
                         <div class="card bg-light text-dark">
                             <div class="card-body">
-                                <p>昵称(必填)：{{form.username}}<a style="color:red">{{error.username}}</a></p>
-                                <p>密码(必填)：{{form.password}}<a style="color:red">{{error.password}}</a></p>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">昵称(必填):</span>
+                                    </div>
+                                    {{form.username}}
+                                    <a style="color:red">{{error.username}}</a>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">密码(必填):</span>
+                                    </div>
+                                    {{form.password}}
+                                    <a style="color:red">{{error.password}}</a>
+                                </div>
+<!--                                <p>昵称(必填)：{{form.username}}<a style="color:red">{{error.username}}</a></p>-->
+<!--                                <p>密码(必填)：{{form.password}}<a style="color:red">{{error.password}}</a></p>-->
 
                                 {% for field in form %}
                                 <a style="color:red">{{field.errors}}</a>

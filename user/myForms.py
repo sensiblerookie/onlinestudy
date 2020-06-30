@@ -15,7 +15,7 @@ def mobile_check(mobile):
     return re.match(pattern, mobile)
 
 
-class RegistrationForm(forms.Form):
+class RegisterForm(forms.Form):
     username = forms.CharField(label='昵称(必填)',
                                max_length=64,
                                widget=forms.TextInput(
@@ -121,10 +121,10 @@ class RegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(label='昵称', max_length=50,
                                widget=forms.TextInput(
-                                   attrs={'class': "form-control", 'placeholder': "输入账号"}))
+                                   attrs={"type": "text", 'class': "form-control", 'placeholder': "输入昵称"}))
     password = forms.CharField(label='密码',
                                widget=forms.PasswordInput(
-                                   attrs={'class': "form-control", 'placeholder': "输入密码"}))
+                                   attrs={"type": "password", 'class': "form-control", 'placeholder': "输入密码"}))
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -172,6 +172,50 @@ class ProfileForm(forms.Form):
     telephone = forms.CharField(label='Telephone', max_length=50, required=False)
 
 
+# class ProfileUpdateForm(forms.Form):
+#     # user_id = request.session.get('_auth_user_id')
+#     # user = User.objects.get(id=user_id)
+#     # user_profile = UserProfile.objects.get(user_id=user_id)
+#     username = forms.CharField(label='昵称',
+#                                max_length=64,
+#                                widget=forms.TextInput(
+#                                    attrs={'class': "form-control", "value": 'user.username'}
+#                                ))
+#
+#     sex = forms.ChoiceField(label='性别(必填)',
+#                             choices=((0, '女'), (1, '男'), (2, '保密')),
+#                             initial=2,
+#                             widget=forms.Select(
+#                                 attrs={'class': "form-control"}
+#                             ))
+#     userPersona = forms.ChoiceField(label='角色(必填)',
+#                                     choices=((0, '教师'), (1, '学生')),
+#                                     initial=1,
+#                                     widget=forms.Select(
+#                                         attrs={'class': "form-control"}
+#                                     ))
+#     userClass = forms.ChoiceField(label='年级(必填)',
+#                                   choices=(
+#                                       (0, '幼儿园'), (1, '一年级'), (2, '二年级'), (3, '三年级'), (4, '四年级'), (5, '五年级'),
+#                                       (6, '六年级'),),
+#                                   initial='{{user_profile.userClass}}',
+#                                   widget=forms.Select(
+#                                       attrs={'class': "form-control"}
+#                                   ))
+#     mobile = forms.IntegerField(label='电话',
+#                                 required=False,
+#                                 initial="{{user_profile.mobile}}",
+#                                 widget=forms.NumberInput(
+#                                     attrs={'class': "form-control", 'value': "{{user_profile.mobile}}"}
+#                                 ))
+#     email = forms.EmailField(label='邮箱',
+#                              max_length=256,
+#                              required=False,
+#                              widget=forms.EmailInput(
+#                                  attrs={'class': "form-control", 'value': "user.email"}
+#                              ))
+
+
 class PwdChangeForm(forms.Form):
     old_password = forms.CharField(label='Old Password', widget=forms.PasswordInput)
 
@@ -198,7 +242,6 @@ class PwdChangeForm(forms.Form):
             raise forms.ValidationError("Password mismatch Please enter again")
 
         return password2
-
 
 # class TitleAddForm(forms.Form):
 #     Course = forms.CharField(label='科目',

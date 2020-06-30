@@ -41,13 +41,33 @@
                             <!-- 模态框主体 -->
                             <div class="modal-body">
                                 {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span  style="width:90px;text-align:center;" class="input-group-text">年级</span>
+                                    </div>
+                                    <select name="userPersona" class="form-control">
+                                        <option value="0">幼儿园</option>
+                                        <option value="1">一年级</option>
+                                        <option value="2">二年级</option>
+                                        <option value="3">三年级</option>
+                                        <option value="4">四年级</option>
+                                        <option value="5">五年级</option>
+                                        <option value="6">六年级</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">添加图片</span>
+                                    </div>
+                                    <input name="username" class="form-control" value="{{user.username}}">
+                                </div>
                                 <p>年级<input type="text" name="upload"></p>
                                 <p>科目<input type="text" name="upload"></p>
                                 <p>题型<input type="text" name="upload"></p>
                                 <p>难易度<input type="text" name="upload"></p>
                                 <p>题目<input type="text" name="upload"></p>
                                 <p>附加题目<input type="text" name="upload"></p>
-                                <p>附加附加图片<input type="text" name="upload"></p>
+                                <p>添加图片<input type="text" name="upload"></p>
                                 <p>答案<input type="text" name="upload"></p>
                                 <p>解析<input type="text" name="upload"></p>
                             </div>
@@ -102,7 +122,7 @@
                 </div>
             </div>
             <br>
-            <div class="card" >
+            <div class="card">
                 <div class="card-body" style="height:300px;text-align:center;line-height:280px;">
                     无预览结果
                 </div>

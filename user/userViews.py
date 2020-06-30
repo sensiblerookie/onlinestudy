@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
-from .myForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
+from .myForms import RegisterForm, LoginForm, ProfileForm, PwdChangeForm
 from .models import UserProfile
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -150,35 +150,76 @@ def profile(request):
 
 
 @login_required
-def profile_update(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    user_profile = get_object_or_404(UserProfile, user=user)
+def profile_update(request):
+    user_id = request.session.get('_auth_user_id')
+    user = User.objects.get(id=user_id)
+    user_profile = UserProfile.objects.get(user_id=user_id)
 
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-
-        if form.is_valid():
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.save()
-
-            user_profile.org = form.cleaned_data['org']
-            user_profile.telephone = form.cleaned_data['telephone']
-            user_profile.save()
-
-            return HttpResponseRedirect(reverse('users:profile', args=[user.id]))
+    print(user_profile.sex)
+    """判断性别"""
+    if int(user_profile.sex) == 0:
+        sex = user_profile.get_sex_display()
+    elif int(user_profile.sex) == 1:
+        sex = user_profile.get_sex_display()
     else:
-        default_data = {'first_name': user.first_name, 'last_name': user.last_name,
-                        'org': user_profile.org, 'telephone': user_profile.telephone, }
-        form = ProfileForm(default_data)
+        sex = user_profile.get_sex_display()
+    """判断邮箱"""
 
-    return render(request, 'users/profile_update.html', {'form': form, 'user': user})
+    """判断手机号"""
+    if user_profile.mobile is None:
+        mobile = '无'
+    else:
+        mobile = user_profile.mobile[0:3] + '****' + user_profile.mobile[-4:]
+    if request.POST:
+        username = request.POST.get('username', None)
+        sex = request.POST.get('sex', None)
+        userPersona = request.POST.get('userPersona', None)
+        print(username)
+        print(sex)
+        print(userPersona)
+
+        response = HttpResponseRedirect('/profile/')
+        return response
+    return render(request, 'profile_update.html',
+                  {'user': user,
+                   'user_profile': user_profile,
+                   'sex': sex,
+                   'email': len(user.email),
+                   'mobile': mobile,
+                   'userPersona': user_profile.get_userPersona_display(),
+                   'userClass': user_profile.get_userClass_display()})
+
+
+# @login_required
+# def profile_update(request, pk):
+#     user = get_object_or_404(User, pk=pk)
+#     user_profile = get_object_or_404(UserProfile, user=user)
+#
+#     if request.method == 'POST':
+#         form = ProfileForm(request.POST)
+#
+#         if form.is_valid():
+#             user.first_name = form.cleaned_data['first_name']
+#             user.last_name = form.cleaned_data['last_name']
+#             user.save()
+#
+#             user_profile.org = form.cleaned_data['org']
+#             user_profile.telephone = form.cleaned_data['telephone']
+#             user_profile.save()
+#
+#             return HttpResponseRedirect(reverse('users:profile', args=[user.id]))
+#     else:
+#         default_data = {'first_name': user.first_name, 'last_name': user.last_name,
+#                         'org': user_profile.org, 'telephone': user_profile.telephone, }
+#         form = ProfileForm(default_data)
+#
+#     return render(request, 'users/profile_update.html', {'form': form, 'user': user})
 
 
 def register(request):
-    form = RegistrationForm()
+    form = RegisterForm()
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             fullname = form.cleaned_data['fullname']

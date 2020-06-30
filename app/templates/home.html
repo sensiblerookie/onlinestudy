@@ -28,7 +28,10 @@
             border: 1px solid #00f;
             border-radius:0 12px;
             background-color: #fff;
-        }</style>
+        }
+
+
+    </style>
 
 </head>
 {% include 'base.html' %}
@@ -144,9 +147,9 @@
                                                                   value="5"/><span>五年级</span></label>
                                                     <label><input type="radio" name="selectClass"
                                                                   value="6"/><span>六年级</span></label>
-                                                </p style="margin:0">
+                                                </p>
                                                 {% elif userClass == 4 %}
-                                                <p>
+                                                <p style="margin:0">
                                                     <label><input type="radio" name="selectClass"
                                                                   value="0"/><span>幼儿园</span></label>
                                                     <label><input type="radio" name="selectClass"
@@ -161,9 +164,9 @@
                                                                   value="5"/><span>五年级</span></label>
                                                     <label><input type="radio" name="selectClass"
                                                                   value="6"/><span>六年级</span></label>
-                                                </p style="margin:0">
+                                                </p>
                                                 {% elif userClass == 5 %}
-                                                <p>
+                                                <p style="margin:0">
                                                     <label><input type="radio" name="selectClass"
                                                                   value="0"/><span>幼儿园</span></label>
                                                     <label><input type="radio" name="selectClass"
@@ -204,12 +207,12 @@
                                             <div class="card-body" style="text-align:left;">
                                                 <p class="font-weight-bold" style="text-align:left;">题数：</p>
                                                 <p>
-                                                    <label><input type="radio" name="mathCount"
-                                                                  value="10"/><span>10</span></label>
+                                                    <label><input type="radio" name="mathCount" value="10"
+                                                                  checked="checked"/><span>10</span></label>
                                                     <label><input type="radio" name="mathCount"
                                                                   value="20"/><span>20</span></label>
-                                                    <label><input type="radio" name="mathCount" value="30"
-                                                                  checked="checked"/><span>30</span></label>
+                                                    <label><input type="radio" name="mathCount"
+                                                                  value="30"/><span>30</span></label>
                                                     <label><input type="radio" name="mathCount"
                                                                   value="40"/><span>40</span></label>
                                                     <label><input type="radio" name="mathCount"
@@ -226,12 +229,12 @@
                                                 </p>
                                                 <p class="font-weight-bold" style="text-align:left;">计算范围：</p>
                                                 <p>
+                                                    <label><input name="numberRange" type="radio" value="10"
+                                                                  checked="checked"><span>10以内</span></label>
                                                     <label><input name="numberRange" type="radio"
-                                                                  value="10"><span>10以内</span></label>
+                                                                  value="20"/><span>20以内</span></label>
                                                     <label><input name="numberRange" type="radio"
-                                                                  value="20"><span>20以内</span></label>
-                                                    <label><input name="numberRange" type="radio" value="30"
-                                                                  checked="checked"><span>30以内</span></label>
+                                                                  value="30"><span>30以内</span></label>
                                                     <label><input name="numberRange" type="radio"
                                                                   value="50"><span>50以内</span></label>
                                                     <label><input name="numberRange" type="radio"
@@ -245,10 +248,10 @@
                                         <div class="card">
                                             <div class="card-body" style="text-align:left;">
                                                 <p style="margin:0">
+                                                    <label><input name="mathGrade" type="radio" value="1"
+                                                                  checked="checked"><span>简单</span></label>
                                                     <label><input name="mathGrade" type="radio"
-                                                                  value="1"><span>简单</span></label>
-                                                    <label><input name="mathGrade" type="radio"
-                                                                  value="2" checked="checked"><span>适中</span></label>
+                                                                  value="2"><span>适中</span></label>
                                                     <label><input name="mathGrade" type="radio"
                                                                   value="3"><span>困难</span></label>
                                                     <label><input name="mathGrade" type="radio"
@@ -346,7 +349,11 @@
                                             {% endif %}
                                             {% endif %}
                                         </div>
-                                        <script>$(document).ready(function(){$('[data-toggle="popover"]').popover();});</script>
+                                        <script>
+                                            $(document).ready(function(){$('[data-toggle="popover"]').popover();});
+
+
+                                        </script>
                                     </div>
                                     <br>
                                     <!-- 说明页 -->
@@ -400,4 +407,7 @@
         ifm1.height=document.documentElement.clientHeight-200;
     }
     window.onresize=function(){ changeFrameHeight();}
-    $(function(){changeFrameHeight();});</script>
+    $(function(){changeFrameHeight();});
+
+
+</script>
