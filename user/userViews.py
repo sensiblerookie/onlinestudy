@@ -1,3 +1,5 @@
+# encoding=utf8
+
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from .myForms import RegisterForm, LoginForm, ProfileForm, PwdChangeForm
 from .models import UserProfile
@@ -6,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from user import models
 
 
 #
@@ -139,6 +142,23 @@ def profile(request):
         mobile = user_profile.mobile[0:3] + '****' + user_profile.mobile[-4:]
     print('邮箱的值', type(user.email), len(user.email))
     # return render(request, 'profile.html', {'user': user_profile, 'sex': user.get_sex_display()})
+    if request.POST:
+        fullName = request.POST.get('fullName', None)
+        userClass = request.POST.get('userClass', None)
+        mobile = request.POST.get('mobile', None)
+        email = request.POST.get('email', None)
+
+        print(fullName)
+        print(sex)
+        print(userClass)
+        print(mobile)
+        print(email)
+
+        models.UserProfile.objects.filter(user_id=user_id).update(
+            fullName=fullName)
+
+        response = HttpResponseRedirect('/profile/')
+        return response
     return render(request, 'profile.html',
                   {'user': user,
                    'user_profile': user_profile,
@@ -149,46 +169,46 @@ def profile(request):
                    'userClass': user_profile.get_userClass_display()})
 
 
-@login_required
-def profile_update(request):
-    user_id = request.session.get('_auth_user_id')
-    user = User.objects.get(id=user_id)
-    user_profile = UserProfile.objects.get(user_id=user_id)
-
-    print(user_profile.sex)
-    """判断性别"""
-    if int(user_profile.sex) == 0:
-        sex = user_profile.get_sex_display()
-    elif int(user_profile.sex) == 1:
-        sex = user_profile.get_sex_display()
-    else:
-        sex = user_profile.get_sex_display()
-    """判断邮箱"""
-
-    """判断手机号"""
-    if user_profile.mobile is None:
-        mobile = '无'
-    else:
-        mobile = user_profile.mobile[0:3] + '****' + user_profile.mobile[-4:]
-    if request.POST:
-        username = request.POST.get('username', None)
-        sex = request.POST.get('sex', None)
-        userPersona = request.POST.get('userPersona', None)
-        print(username)
-        print(sex)
-        print(userPersona)
-
-        response = HttpResponseRedirect('/profile/')
-        return response
-    return render(request, 'profile_update.html',
-                  {'user': user,
-                   'user_profile': user_profile,
-                   'sex': sex,
-                   'email': len(user.email),
-                   'mobile': mobile,
-                   'userPersona': user_profile.get_userPersona_display(),
-                   'userClass': user_profile.get_userClass_display()})
-
+# @login_required
+# def profile_update(request):
+#     user_id = request.session.get('_auth_user_id')
+#     user = User.objects.get(id=user_id)
+#     user_profile = UserProfile.objects.get(user_id=user_id)
+#
+#     print(user_profile.sex)
+#     """判断性别"""
+#     if int(user_profile.sex) == 0:
+#         sex = user_profile.get_sex_display()
+#     elif int(user_profile.sex) == 1:
+#         sex = user_profile.get_sex_display()
+#     else:
+#         sex = user_profile.get_sex_display()
+#     """判断邮箱"""
+#
+#     """判断手机号"""
+#     if user_profile.mobile is None:
+#         mobile = '无'
+#     else:
+#         mobile = user_profile.mobile[0:3] + '****' + user_profile.mobile[-4:]
+#     if request.POST:
+#         username = request.POST.get('username', None)
+#         sex = request.POST.get('sex', None)
+#         userPersona = request.POST.get('userPersona', None)
+#         print(username)
+#         print(sex)
+#         print(userPersona)
+#
+#         response = HttpResponseRedirect('/profile/')
+#         return response
+#     return render(request, 'profile_update.html',
+#                   {'user': user,
+#                    'user_profile': user_profile,
+#                    'sex': sex,
+#                    'email': len(user.email),
+#                    'mobile': mobile,
+#                    'userPersona': user_profile.get_userPersona_display(),
+#                    'userClass': user_profile.get_userClass_display()})
+#
 
 # @login_required
 # def profile_update(request, pk):

@@ -5,23 +5,52 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 import random
 import time
+import datetime
 import ast
 import math
-import datetime
 from app.models import TitleStore, SelectTitleInfo, AnswerInfo
 from user.models import UserProfile
 from app import models
 from PIL import Image, ImageDraw, ImageFont
 from collections import Counter
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 
 # from user.myForms import TitleAddForm
 
 # 使用数据mysql
-'''将结果页的内容生成图片'''
 
 
-def new_image(width, height, color):  # 生成空的图片模板
+def total_time(updateTime, createTime):
+    """时间差计算"""
+    """计算方法一"""
+    # data_sj = time.strptime(time1, "%Y-%m-%d %H:%M:%S")  # 将字符串定义时间格式
+    # data_sj1 = time.strptime(time2, "%Y-%m-%d %H:%M:%S")  # 将字符串定义时间格式
+    # t1 = time.mktime(time1.timetuple())  # 将日期转换为时间戳
+    # t2 = time.mktime(time2.timetuple())  # 将日期转换为时间戳
+    # total = divmod(t2 - t1, 60 * 60 * 24)  # 计算时间差，利用divmod() 函数判断时间差是否超过一天
+    # date_array = datetime.datetime.utcfromtimestamp(total[1])  # 将不足一天的时间转换成时分秒
+    # other_style_time = date_array.strftime("%H时%M分%S秒")
+    # if total[0] == 0:
+    #     use_time = str(other_style_time)
+    # else:
+    #     use_time = str(total[0]) + '天 ' + str(other_style_time)
+    # return use_time
+
+    """计算方法二"""
+    day = (updateTime - createTime).days  # 间隔天数
+    second = (updateTime - createTime).seconds  # 间隔秒数
+    date_array = datetime.datetime.utcfromtimestamp(second)  # 将不足一天的时间转换成时分秒
+    other_style_time = date_array.strftime("%H:%M:%S")
+    if day == 0:
+        use_time = str(other_style_time)
+    else:
+        use_time = str(day) + '天 ' + str(other_style_time)
+    return use_time
+
+
+def new_image(width, height, color):  # 将结果页的内容生成图片，生成空的图片模板
     img = Image.new('RGBA', (int(width), int(height)), color)
     img.save('./static/image/app/test.png')
 
@@ -94,7 +123,7 @@ def synthesis_image(mother_img, son_img, son_img1, save_img, coordinate=None):
 
 
 def draw_image(template_img, user_sex, title, maths, user_id):  # 获取答题结果内容，生成报告
-    math_type_info = AnswerInfo.objects.get(user_id=user_id)
+    math_type_info = AnswerInfo.objects.filter(user_id=user_id).last()
     math_count_dict = ast.literal_eval(math_type_info.titleCount)
     # 图片名称
     img = template_img  # 图片模板
@@ -148,23 +177,25 @@ def draw_image(template_img, user_sex, title, maths, user_id):  # 获取答题�
     # 题数
     cur_time_x = title_x + 10
     cur_time_y = title_y - 75
-    total_time = math_type_info.endTime - math_type_info.startTime
-    if total_time <= 60:  # 计算秒
-        use_time = '共提交 %s 次，用时 %s秒' % (math_type_info.submitNumber, total_time)
-    elif 60 < total_time <= 60 * 60:  # 计算分
-        m = math.modf(total_time / 60)
-        use_time = '共提交 %s 次，用时 %s分%s秒' % (math_type_info.submitNumber, math.ceil(m[1]), math.ceil(m[0] * 60))
-    elif 60 * 60 < total_time <= 60 * 60 * 24:  # 计算时
-        h = math.modf(total_time / 3600)
-        m = math.modf(h[0] * 60)
-        use_time = '共提交 %s 次，用时 %s小时%s分%s秒' % (
-            math_type_info.submitNumber, math.ceil(h[1]), math.ceil(m[1]), math.ceil(m[0] * 60))
-    else:  # 计算天
-        t = math.modf(total_time / (3600 * 24))
-        h = math.modf(t[0] * 24)
-        m = math.modf(h[0] * 60)
-        use_time = '共提交 %s 次，用时 %s天%s小时%s分%s秒' % (
-            math_type_info.submitNumber, math.ceil(t[1]), math.ceil(h[1]), math.ceil(m[1]), math.ceil(m[0] * 60))
+    # total_time = math_type_info.endTime - math_type_info.startTime
+    # if total_time <= 60:  # 计算秒
+    #     use_time = '共提交 %s 次，用时 %s秒' % (math_type_info.submitNumber, total_time)
+    # elif 60 < total_time <= 60 * 60:  # 计算分
+    #     m = math.modf(total_time / 60)
+    #     use_time = '共提交 %s 次，用时 %s分%s秒' % (math_type_info.submitNumber, math.ceil(m[1]), math.ceil(m[0] * 60))
+    # elif 60 * 60 < total_time <= 60 * 60 * 24:  # 计算时
+    #     h = math.modf(total_time / 3600)
+    #     m = math.modf(h[0] * 60)
+    #     use_time = '共提交 %s 次，用时 %s小时%s分%s秒' % (
+    #         math_type_info.submitNumber, math.ceil(h[1]), math.ceil(m[1]), math.ceil(m[0] * 60))
+    # else:  # 计算天
+    #     t = math.modf(total_time / (3600 * 24))
+    #     h = math.modf(t[0] * 24)
+    #     m = math.modf(h[0] * 60)
+    #     use_time = '共提交 %s 次，用时 %s天%s小时%s分%s秒' % (
+    #         math_type_info.submitNumber, math.ceil(t[1]), math.ceil(h[1]), math.ceil(m[1]), math.ceil(m[0] * 60))
+    use_time = '共提交 %s 次，用时 %s' % (math_type_info.submitNumber,
+                                   total_time(math_type_info.updateTime, math_type_info.createTime))
     draw.text((cur_time_x, height - cur_time_y), u'%s' % use_time, color1, cur_time_font)
 
     # 运算题目
@@ -264,13 +295,84 @@ def result(request):
 
     draw_image(template_img, user_sex, title, maths, user_id)
 
+    """首次提交时向数据库保存第一次答题的结果"""
+    math_type_info_list = AnswerInfo.objects.filter(user_id=user_id).last()
+    a = AnswerInfo.objects.filter(user_id=user_id).last()
+    if int(math_type_info_list.submitNumber) == 1:
+        models.AnswerInfo.objects.filter(id=a.id).update(
+            submitFirst='✓：%s；✗：%s' % (Counter(maths_comparison)[True], Counter(maths_comparison)[False]))
+
+    if Counter(maths_comparison)[False] == 0:  # 当答题错误数为0时，allComparison=True
+        models.AnswerInfo.objects.filter(id=a.id).update(allComparison=True)
+
     return render(request, 'result.html', {'yes': Counter(maths_comparison)[True],
                                            'no': Counter(maths_comparison)[False],
                                            'user_id': user_id,
                                            'result_true': result_true,
                                            'FalseNum': len(result_true),
-                                           'submitNum': AnswerInfo.objects.get(user_id=user_id).submitNumber,
+                                           'submitNum': AnswerInfo.objects.filter(user_id=user_id).last().submitNumber,
                                            })
+
+
+# 答题日志
+@login_required
+def result_log(request, **pindex):
+    """
+    查询用户所有答题记录并展示到前端页面
+    """
+    user_id = request.session.get('_auth_user_id')  # 获取用户id
+    answer_info_obj = AnswerInfo.objects.filter(user_id=user_id).all().order_by('-createTime')  # 获取所有答题记录的数据
+    answer_info_list = []  # 创建一个空列表，存放当前登陆人所借过的书
+
+    for item in answer_info_obj:  # 遍历所有记录，，并放入空列表
+        count_dict = ast.literal_eval(item.titleCount)
+        title_count = []
+        if count_dict['mathCount']['Count'] != 0:
+            if int(count_dict['mathCount']['titleType']) == 1:
+                title_count.append('%s道(加减法、%s以内)计算题；' % (
+                    count_dict['mathCount']['Range'],
+                    count_dict['mathCount']['Count']))
+            elif int(count_dict['mathCount']['titleType']) == 2:
+                title_count.append('%s道(加减法、%s以内)计算题；' % (
+                    count_dict['mathCount']['Range'],
+                    count_dict['mathCount']['Count']))
+            else:
+                title_count.append('%s道(加减法、%s以内)计算题；' % (
+                    count_dict['mathCount']['Range'],
+                    count_dict['mathCount']['Count']))
+        if count_dict['mathFill']['Fill'] != 0:
+            title_count.append('%s道填空题；' % count_dict['mathFill']['Fill'])
+        if count_dict['mathSelect']['Select'] != 0:
+            title_count.append('%s道选择题；' % count_dict['mathSelect']['Select'])
+        if count_dict['mathVerdict']['Verdict'] != 0:
+            title_count.append('%s道判断题；' % count_dict['mathVerdict']['Verdict'])
+        if count_dict['mathUse']['Use'] != 0:
+            title_count.append('%s道应用题；' % count_dict['mathUse']['Use'])
+        if count_dict['mathNumber']['Number'] != 0:
+            title_count.append('%s道奥数题；' % count_dict['mathNumber']['Number'])
+
+        answer_info_list.append({'userSelectClass': item.get_userSelectClass_display(),
+                                 'titleCount': "".join(title_count),
+                                 'Course': item.get_Course_display(),
+                                 'titleGrade': item.get_titleGrade_display(),
+                                 'submitFirst': item.submitFirst,
+                                 'submitNumber': item.submitNumber,
+                                 'allComparison': item.allComparison,
+                                 'use_time': total_time(item.updateTime, item.createTime),
+                                 'createTime': item.createTime.strftime("%Y/%m/%d %H:%M:%S")})
+        print(type(item.createTime))
+    paginator = Paginator(answer_info_list, 10)  # 实例化Paginator, 每页显示5条数据
+    if pindex == "" or pindex is None or {}:  # django中默认返回空值，所以加以判断，并设置默认值为1
+        pindex = 1
+    else:  # 如果有返回在值，把返回值转为整数型
+        pindex = int(pindex['pindex'])
+    page = paginator.page(pindex)  # 传递当前页的实例对象到前端
+    print(page)
+    print(paginator.count)
+    return render(request, 'result_log.html', {
+        "page": page,
+        'count': paginator.count,
+        'user': request.session["user"]})
 
 
 # 1-6年级答题结果页
@@ -312,7 +414,11 @@ def home(request):
 
         if int(user_select_class) == 0:
             SelectTitleInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中SelectTitleInfo的数据
-            AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
+
+            if AnswerInfo.objects.filter(user_id=user_id).count() >= 20:  # 当同一用户数据库答题记录超过20条时，删除最开始的一条数据，以保证答题记录永远只有20条
+                AnswerInfo.objects.filter(user_id=user_id).first().delete()
+
+            # AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
             models.AnswerInfo.objects.create(user_id=user_id,
                                              userSelectClass=user_select_class,
                                              titleCount={'mathCount': {'Type': '0', 'titleType': math_type,
@@ -323,8 +429,7 @@ def home(request):
                                                          'mathVerdict': {'Type': '3', 'Verdict': 0},
                                                          'mathUse': {'Type': '4', 'Use': 0},
                                                          'mathNumber': {'Type': '5', 'Number': 0}},
-                                             titleGrade=math_grade,
-                                             startTime=time.time())
+                                             titleGrade=math_grade)
             for i in range(int(math_count_amount)):
                 if int(math_number_range) < 20:
                     x = random.randint(0, int(math_number_range))
@@ -349,7 +454,7 @@ def home(request):
                         else:
                             math2(x, y, z, i, user_id)
 
-                    elif int(math_grade) == 3:  # 偏难
+                    elif int(math_grade) == 3:  # 困难
                         if i < int(math_count_amount) / 4:
                             math2(x, y, z, i, user_id)
                         elif (int(math_count_amount) / 4) < i < (int(math_count_amount) / 2):
@@ -396,7 +501,11 @@ def home(request):
             return response
         else:
             SelectTitleInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中SelectTitleInfo的数据
-            AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
+
+            if AnswerInfo.objects.filter(user_id=user_id).count() >= 20:  # 当同一用户数据库答题记录超过20条时，删除最开始的一条数据，以保证答题记录永远只有20条
+                AnswerInfo.objects.filter(user_id=user_id).first().delete()
+
+            # AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
             models.AnswerInfo.objects.create(user_id=user_id,
                                              userSelectClass=user_select_class,
                                              titleCount={'mathCount': {'Type': '0', 'titleType': math_type,
@@ -407,8 +516,7 @@ def home(request):
                                                          'mathVerdict': {'Type': '3', 'Verdict': 10},
                                                          'mathUse': {'Type': '4', 'Use': 5},
                                                          'mathNumber': {'Type': '5', 'Number': 2}},
-                                             titleGrade=math_grade,
-                                             startTime=time.time())
+                                             titleGrade=math_grade)
             """随机生成的计算题"""
             # 计算题
             for i in range(int(math_count_amount)):
@@ -432,7 +540,7 @@ def home(request):
                             math1(x, y, i, user_id)
                         else:
                             math2(x, y, z, i, user_id)
-                    elif int(math_grade) == 3:  # 偏难
+                    elif int(math_grade) == 3:  # 困难
                         if i < int(math_count_amount) / 4:
                             math2(x, y, z, i, user_id)
                         elif (int(math_count_amount) / 4) < i < (int(math_count_amount) / 2):
@@ -482,7 +590,7 @@ def home(request):
             return response
 
     try:
-        math_type_info = AnswerInfo.objects.get(user_id=user_id)
+        math_type_info = AnswerInfo.objects.filter(user_id=user_id).last()
         new_result_dict = SelectTitleInfo.objects.filter(user_id=user_id).values('inputAnswer').all()
         new_result_list = []
         for item in new_result_dict:
@@ -490,7 +598,7 @@ def home(request):
         differences = None in Counter(new_result_list).keys()  # differences判断填写的结果是否存在空值
         if differences is False:
             return render(request, 'home.html',
-                          {'result': math_type_info.endTime,
+                          {'result': math_type_info.submitFirst,
                            'userId': math_type_info.user_id,
                            'userClass': int(user_profile.userClass),
                            'user_select_class': int(math_type_info.userSelectClass),
@@ -498,7 +606,7 @@ def home(request):
                            'user_class': user_profile.get_userClass_display()})
         else:
             return render(request, 'home.html',
-                          {'result': None,
+                          {'result': math_type_info.submitFirst,
                            'userId': math_type_info.user_id,
                            'userClass': int(user_profile.userClass),
                            'user_select_class': int(math_type_info.userSelectClass),
@@ -544,7 +652,7 @@ def custom_home(request):
         print('奥数题数量：', number_amount)
 
         SelectTitleInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中SelectTitleInfo的数据
-        AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
+        # AnswerInfo.objects.filter(user_id=user_id).delete()  # 删除数据库中AnswerInfo的数据
 
         """更新AnswerInfo中的数据"""
         models.AnswerInfo.objects.create(user_id=user_id,
@@ -557,8 +665,7 @@ def custom_home(request):
                                                      'mathVerdict': {'Type': '3', 'Verdict': verdict_amount},
                                                      'mathUse': {'Type': '4', 'Use': use_amount},
                                                      'mathNumber': {'Type': '5', 'Number': number_amount}},
-                                         titleGrade=math_grade,
-                                         startTime=time.time())
+                                         titleGrade=math_grade)
         """随机生成的计算题"""
         # 计算题
         for i in range(int(math_count_amount)):
@@ -573,7 +680,7 @@ def custom_home(request):
                         math1(x, y, i, user_id)
                     else:
                         math2(x, y, z, i, user_id)
-                elif int(math_grade) == 3:  # 偏难
+                elif int(math_grade) == 3:  # 困难
                     if i < int(math_count_amount) / 4:
                         math2(x, y, z, i, user_id)
                     elif (int(math_count_amount) / 4) < i < (int(math_count_amount) / 2):
@@ -631,13 +738,13 @@ def custom_home(request):
 
         if differences is False:
             return render(request, 'custom_home.html',
-                          {'result': math_type_info.endTime,
+                          {'result': math_type_info.submitFirst,
                            'userId': math_type_info.user_id,
                            'userClass': int(user_profile.userClass),
                            'user_class': user_profile.get_userClass_display()})
         else:
             return render(request, 'custom_home.html',
-                          {'result': None,
+                          {'result': math_type_info.submitFirst,
                            'userId': math_type_info.user_id,
                            'userClass': int(user_profile.userClass),
                            'user_class': user_profile.get_userClass_display()})
@@ -735,7 +842,7 @@ def custom_home(request):
 def index(request):
     user_id = request.session.get('_auth_user_id')
     math_list = SelectTitleInfo.objects.filter(user_id=user_id).all()
-    math_type_info_list = AnswerInfo.objects.get(user_id=user_id)
+    math_type_info_list = AnswerInfo.objects.filter(user_id=user_id).last()
     math_count_dict = ast.literal_eval(math_type_info_list.titleCount)
     math_comparison_dict = math_list.values('answerComparison')
     # user_profile = UserProfile.objects.get(user_id=user_id)
@@ -809,11 +916,16 @@ def index(request):
         math_new_result = math_list.values('inputAnswer')
 
         for i in range(len(math_list)):
+
+            print('=====', AnswerInfo.objects.filter(user_id=user_id).last())
+            a = AnswerInfo.objects.filter(user_id=user_id).last()
+            print(a.id)
+            print(a.updateTime)
+
             """向数据库更新提交次数"""
-            models.AnswerInfo.objects.filter(user_id=user_id).update(
+            models.AnswerInfo.objects.filter(id=a.id).update(
                 submitNumber=int(math_type_info_list.submitNumber) + 1,
-                updateTime=datetime.datetime.now(),
-                endTime=time.time())
+                updateTime=datetime.datetime.now())
             '''判断所有结果是否有改动,无改动，取上一次的值'''
             answer_get = request.POST.getlist('%s' % math_id[i]['id'], None)  # 获取用户输入的内容
             print('%s' % math_id[i]['id'], answer_get)
@@ -1121,7 +1233,7 @@ def math2(x, y, z, i, user_id):  # 适中加减
                                                   )
 
 
-def math3(x, y, z, i, user_id):  # 偏难加减
+def math3(x, y, z, i, user_id):  # 困难加减
     if x > y:
         if x - y > z:
             if i % 2 == 0:
@@ -1295,7 +1407,7 @@ def math5(x, y, z, i, user_id):  # 适中乘除
                                                   )
 
 
-def math6(x, y, z, i, user_id):  # 偏难乘除
+def math6(x, y, z, i, user_id):  # 困难乘除
     title_list = [['( ) × %s × %s = %s' % (y, z, x * y * z), x], ['%s × ( ) × %s = %s' % (x, z, x * y * z), y],
                   ['%s × %s × ( ) = %s' % (x, y, x * y * z), z], ['%s × %s ÷ ( ) = %s' % (x, y * z, x * y), z],
                   ['%s × ( ) ÷ %s = %s' % (x * z, x, y * z), y], ['( ) × %s ÷ %s = %s' % (y * z, z, x * y), x],

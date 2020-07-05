@@ -1,4 +1,37 @@
-from collections import Counter
+import math
+import time, datetime
+
+time1 = '2020-07-02 22:11:49'
+time2 = '2020-07-03 22:22:50'
+
+data_sj = time.strptime(time1, "%Y-%m-%d %H:%M:%S")  # 定义格式
+data_sj1 = time.strptime(time2, "%Y-%m-%d %H:%M:%S")  # 定义格式
+time_int = int(time.mktime(data_sj))
+time_int1 = int(time.mktime(data_sj1))
+print(time_int1 - time_int)
+
+total_time = time_int1 - time_int
+
+total_time = divmod(total_time, 60 * 60 * 24)
+dateArray = datetime.datetime.utcfromtimestamp(total_time[1])
+otherStyleTime = dateArray.strftime("%H时%M分%S秒")
+if total_time[0] == 0:
+    use_time = str(otherStyleTime)
+else:
+    use_time = str(total_time[0]) + '天 ' + str(otherStyleTime)
+print(use_time)
+
+# 计算两个时间之间差值
+now_time = datetime.datetime.now()
+now_time = now_time.strftime('%Y-%m-%d %H:%M:%S')
+d1 = datetime.datetime.strptime('2020-07-02 19:21:22', '%Y-%m-%d %H:%M:%S')
+d2 = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
+# 间隔天数
+day = (d2 - d1).days
+# 间隔秒数
+second = (d2 - d1).seconds
+print(day)
+print(second)
 
 # math = ['5']
 # for num in math:
@@ -414,12 +447,12 @@ from collections import Counter
 # for i in range(b):
 #     print(i+1)
 
-import jieba
-ss = "你是想红寺湖但行好事时尚先生"
-print(jieba.lcut(ss))
-print(jieba.lcut_for_search(ss))
-
-s = '你好呀！'
-
-if s in jieba.lcut_for_search(ss):
-    print('True')
+# import jieba
+# ss = "你是想红寺湖但行好事时尚先生"
+# print(jieba.lcut(ss))
+# print(jieba.lcut_for_search(ss))
+#
+# s = '你好呀！'
+#
+# if s in jieba.lcut_for_search(ss):
+#     print('True')

@@ -25,20 +25,24 @@
                                 <img src="{% static '../static/image/public/default_head.jpg'%}" alt="logo"
                                      style="width:180px;high:180px"
                                      class="rounded-circle">
+                                <br>
+                                <br>
+                                <a href="#">换一张</a>
                             </div>
                             <div style="padding-left:20px">
                                 <p>昵称：<span style="color:#A9A9A9">{{user.username}}</span></p>
                                 <p>角色：<span style="color:#A9A9A9">{{userPersona}}</span></p>
-                                <p>姓名：<span style="color:#A9A9A9">{{user_profile.fullName}}</span></p>
-                                <p>性别：<span style="color:#A9A9A9"> {{sex}}</span></p>
-                                <p>班级：<span style="color:#A9A9A9">{{userClass}}</span></p>
+                                <p>性别：<span style="color:#A9A9A9"> {{sex}}</span>&nbsp;&nbsp;<a href="#">修改</a></p>
+                                <p>姓名：<span style="color:#A9A9A9">{{user_profile.fullName}}</span>&nbsp;&nbsp;<a
+                                        href="#">修改</a></p>
+                                <p>年级：<span style="color:#A9A9A9">{{userClass}}</span>&nbsp;&nbsp;<a href="#">修改</a></p>
                                 {% if user_profile.mobile is None %}
-                                <p>绑定手机：<span style="color:#A9A9A9">无</span></p>
+                                <p>绑定手机：<span style="color:#A9A9A9">无</span>&nbsp;&nbsp;<a href="#">修改</a></p>
                                 {% else %}
                                 <p>绑定手机：<span style="color:#A9A9A9">{{mobile}}</span></p>
                                 {% endif %}
                                 {% if email == 0 %}
-                                <p>电子邮箱：<span style="color:#A9A9A9">无</span></p>
+                                <p>电子邮箱：<span style="color:#A9A9A9">无</span>&nbsp;&nbsp;<a href="#">修改</a></p>
                                 {% else %}
                                 <p>电子邮箱：<span style="color:#A9A9A9">{{user.email}}</span></p>
                                 {% endif %}
@@ -52,8 +56,8 @@
                 </div>
                 <br>
                 <div style="text-align:right;">
-                    <a href="/profile_update/" class="btn btn-outline-primary">编辑信息</a>
-<!--                    <a href="/home/" class="btn btn-outline-primary">返回首页</a>-->
+                    <a href="/profile/" class="btn btn-outline-primary">保存并更新</a>
+                    <!--                    <a href="/home/" class="btn btn-outline-primary">返回首页</a>-->
                 </div>
             </div>
         </div>

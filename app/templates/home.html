@@ -31,6 +31,7 @@
         }
 
 
+
     </style>
 
 </head>
@@ -46,23 +47,26 @@
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#home">学生首页</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#menu1">课外扩展</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#menu2">名师辅导</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#menu3">讨论区</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="#menu1">课外扩展</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="#menu2">名师辅导</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="#menu3">讨论区</a>-->
+<!--                    </li>-->
                     {% if persona == 0%}
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#menu4">添加题库</a>
                     </li>
                     {% else %}
                     {% endif %}
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="#menu5">管理员</a>-->
+<!--                    </li>-->
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#menu5">管理员</a>
+                        <a class="nav-link" data-toggle="tab" href="#menu6">答题日志</a>
                     </li>
                 </ul>
 
@@ -248,14 +252,14 @@
                                         <div class="card">
                                             <div class="card-body" style="text-align:left;">
                                                 <p style="margin:0">
-                                                    <label><input name="mathGrade" type="radio" value="1"
+                                                    <label><input name="mathGrade" type="radio" value="0"
                                                                   checked="checked"><span>简单</span></label>
                                                     <label><input name="mathGrade" type="radio"
-                                                                  value="2"><span>适中</span></label>
+                                                                  value="1"><span>适中</span></label>
                                                     <label><input name="mathGrade" type="radio"
-                                                                  value="3"><span>困难</span></label>
+                                                                  value="2"><span>困难</span></label>
                                                     <label><input name="mathGrade" type="radio"
-                                                                  value="4"><span>特难</span></label>
+                                                                  value="3"><span>特难</span></label>
                                                 </p>
                                             </div>
                                         </div>
@@ -341,16 +345,21 @@
                                             <a class="nav-link" href="#" data-toggle="popover" data-placement="top"
                                                data-trigger="focus"
                                                data-content="请答完题后再查看结果">查看结果</a>
+                                            {% elif result == '未答题' %}
+                                            <a class="nav-link" href="#" data-toggle="popover" data-placement="top"
+                                               data-trigger="focus"
+                                               data-content="请答完题后再查看结果">查看结果</a>
                                             {% else %}
-                                            {% if user_select_class == 0 %}
-                                            <a class="nav-link" href="/result/">查看结果</a>
-                                            {% else %}
-                                            <a class="nav-link" href="/result_class/">查看结果</a>
-                                            {% endif %}
+                                                {% if user_select_class == 0 %}
+                                                <a class="nav-link" href="/result/">查看结果</a>
+                                                {% else %}
+                                                <a class="nav-link" href="/result_class/">查看结果</a>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                         <script>
                                             $(document).ready(function(){$('[data-toggle="popover"]').popover();});
+
 
 
                                         </script>
@@ -388,6 +397,11 @@
                         <!--                        超级管理员-->
                         <iframe id="myiframe1" width="100%" frameborder="0" src="https://www.baidu.com"></iframe>
                     </div>
+                    <div id="menu6" class="container tab-pane fade"><br>
+                        <!--                        <a href="/result_log/">记录</a>-->
+                        <iframe id="myiframe2" width="100%" frameborder="0" src="../result_log/1"></iframe>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -403,11 +417,14 @@
     function changeFrameHeight(){
         var ifm= document.getElementById("myiframe");
         var ifm1= document.getElementById("myiframe1");
+        var ifm2= document.getElementById("myiframe2");
         ifm.height=document.documentElement.clientHeight-200;
         ifm1.height=document.documentElement.clientHeight-200;
+        ifm2.height=document.documentElement.clientHeight-200;
     }
     window.onresize=function(){ changeFrameHeight();}
     $(function(){changeFrameHeight();});
+
 
 
 </script>

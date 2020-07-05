@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load bootstrap4 %}
+    {% load static%}
+    {% bootstrap_css%}
+    {% bootstrap_javascript%}
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>答题记录</title>
+</head>
+<body>
+
+<!--当前页内容遍历展示-->
+{% if count == 0 %}
+<div style="text-align:center;">
+    <img src="../static/image/app/nodata.png" class="img-fluid" style="border-radius:10px">
+</div>
+
+{% else %}
+
+<div>
+    <table class="table table-hover table-striped table-sm text-nowrap" style="text-align:center;">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>答题时间</th>
+            <th>年级</th>
+            <th colspan="2">答题数量</th>
+            <th>难易程度</th>
+            <th>首次提交</th>
+            <th>总提交数</th>
+            <th>答题结果</th>
+            <th>答题用时</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in page %}
+        <tr class="text-muted">
+            <td>{{forloop.counter}}</td>
+            <td>{{item.createTime}}</td>
+            <td>{{item.userSelectClass}}</td>
+            <td style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
+                title="{{item.titleCount}}">{{item.titleCount}}
+            </td>
+            <td><a href="#" data-toggle="tooltip" data-placement="bottom" title="{{item.titleCount}}">查看</a></td>
+            <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+            <td>{{item.titleGrade}}</td>
+            <td>{{item.submitFirst}}</td>
+            <td>{{item.submitNumber}}</td>
+            {% if item.allComparison == False %}
+            <td style="color:red">未全答对</td>
+            {% else %}
+            <td style="color:green">已全答对</td>
+            {% endif %}
+            <td>{{item.use_time}}</td>
+
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+    <!--底部分页按钮显示-->
+    <nav aria-label="Page navigation">
+        <samp>共 {{count}} 条记录</samp>
+        <div style="float:right;">
+            <ul class="pagination">
+                {% if page.has_previous %} <!--判断当前页是否有上一页-->
+                <li class="page-item"><a class="page-link" href="../result_log/{{page.previous_page_number}}" aria-label="Previous">
+                    <span aria-hidden="true">《</span></a></li>
+                {% endif %}
+
+                {% for num in page.paginator.page_range%}<!--循环遍历页码列表，并展示到底部-->
+
+                {%if pindex == page.number%}
+                <li class="page-item"><a class="page-link" href="">{{ num }}</a></li>
+                {%else%}
+                <li class="page-item"><a class="page-link" href="../result_log/{{num}}">{{ num }}</a></li>
+                {%endif%}
+                {% endfor %}
+
+                {% if page.has_next %} <!--判断当前页是否有下一页-->
+                <li class="page-item"><a class="page-link" href="../result_log/{{page.next_page_number}}" aria-label="Next"><span
+                        aria-hidden="true">》</span></a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+{% endif %}
+</body>
+</html>

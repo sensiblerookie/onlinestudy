@@ -15,8 +15,8 @@ class SelectTitleInfoAdmin(admin.ModelAdmin):
 
 
 class AnswerInfoAdmin(admin.ModelAdmin):
-    list_display = ['user_id', 'Course', 'userSelectClass', 'titleCount', 'titleGrade', 'submitNumber',
-                    'createTime', 'updateTime', 'startTime', 'endTime']
+    list_display = ['user_id', 'Course', 'userSelectClass', 'titleCount', 'submitFirst', 'allComparison', 'titleGrade',
+                    'submitNumber', 'createTime', 'updateTime']
 
 
 admin.site.register(TitleStore, TitleStoreAdmin)

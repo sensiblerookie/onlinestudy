@@ -64,13 +64,13 @@ class AnswerInfo(models.Model):
     Class_Data = (('0', '幼儿园'), ('1', '一年级'), ('2', '二年级'), ('3', '三年级'), ('4', '四年级'), ('5', '五年级'), ('6', '六年级'))
     userSelectClass = models.CharField('年级', choices=Class_Data, max_length=32)
     titleCount = models.CharField('题目数量', max_length=1024)
-    Grade = (('0', '一般'), ('1', '适中'), ('2', '困难'), ('3', '特难'))
+    Grade = (('0', '简单'), ('1', '适中'), ('2', '困难'), ('3', '特难'))
     titleGrade = models.CharField('难易度', choices=Grade, default='1', max_length=30)
-    submitNumber = models.IntegerField('提交结果', default='0')  # 包含【提交次数、正确个数、错误个数、错误题目及输入答案】
+    submitFirst = models.CharField('首次提交结果', max_length=200, default='未答题', null=True)  # 包含【提交次数、正确个数、错误个数、错误题目及输入答案】
+    submitNumber = models.IntegerField('提交次数', default='0')
+    allComparison = models.BooleanField('是否全部正确', default=False)
     createTime = models.DateTimeField('创建时间', auto_now_add=True)
     updateTime = models.DateTimeField('更新时间', auto_now=True)
-    startTime = models.IntegerField('开始时间', null=True)
-    endTime = models.IntegerField('结束时间', null=True)
 
     class Meta:
         verbose_name = '答题信息'
